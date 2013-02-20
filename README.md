@@ -1,3 +1,5 @@
+This is a form of SudsSigner. Work in progress (aka Axis 1 compat).
+
 SOAP signature plugin for SUDS
 ==============================
 
@@ -23,9 +25,9 @@ Dependencies
 ------------
 
  - Python 2.x (tested on 2.7)
- - libxml2 and Python bindings (Debian/Ubuntu package: `python-libxml2`)
- - SUDS 0.4 (Debian/Ubuntu package: `python-suds`)
+ - libxml2 and Python bindings (Debian/Ubuntu package: `python-libxml2`, Pypi: `libxml2-python`)
+ - SUDS >= 0.4.1 (Debian/Ubuntu package: `python-suds`, Pypi: `suds-jurko`, `suds-philpem`)
  - xmlsec library and development files  (Debian/Ubuntu package: `libxmlsec1-dev`)
  - PyXMLSec with addIDs patch (https://github.com/dnet/pyxmlsec)
- - pyOpenSSL (Debian/Ubuntu package: `python-openssl`)
- - LXML (Debian/Ubuntu package: `python-lxml`)
+ - pyOpenSSL (Debian/Ubuntu package: `python-openssl`, Pypi: `pyopenssl`)
+ - LXML (Debian/Ubuntu package: `python-lxml`, Pypi: `lxml`)
