@@ -99,11 +99,7 @@ class SignerPlugin(MessagePlugin):
         crt = crt.replace('\n', '').replace(BEGINCERT, '').replace(ENDCERT, '')
         btkn.text = crt
         self.insert_signature_template(security, queue)
-        output = StringIO.StringIO()
-        # Axis requieres excl C14N
-        etree.ElementTree(env).write_c14n(output, exclusive=1, with_comments=0,
-            inclusive_ns_prefixes=['xs', 'xsi'],)
-        context.envelope = self.get_signature(output.getvalue())
+        context.envelope = self.get_signature(etree.tostring(env))
 
     def insert_signature_template(self, security, queue):
         signature = etree.SubElement(security, DS_SIGNATURE)
