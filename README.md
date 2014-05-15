@@ -28,6 +28,6 @@ Dependencies
  - libxml2 and Python bindings (Debian/Ubuntu package: `python-libxml2`, Pypi: `libxml2-python`)
  - SUDS >= 0.4.1 (Debian/Ubuntu package: `python-suds`, Pypi: `suds-jurko`, `suds-philpem`)
  - xmlsec library and development files  (Debian/Ubuntu package: `libxmlsec1-dev`)
- - PyXMLSec with addIDs patch (https://github.com/dnet/pyxmlsec)
+ - PyXMLSec >= 0.3.1
  - pyOpenSSL (Debian/Ubuntu package: `python-openssl`, Pypi: `pyopenssl`)
  - LXML (Debian/Ubuntu package: `python-lxml`, Pypi: `lxml`)

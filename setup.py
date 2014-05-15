@@ -17,7 +17,7 @@ setup(name='sudssigner',
       version='0.9',
       packages=['sudssigner'],
       install_requires=[
-        'lxml', 'pyopenssl', 'suds>=0.4.1',
-        'pyxmlsec-next'],
-      dependency_links = ['https://github.com/htj/suds-htj/tarball/master#egg=suds-0.4.1'],
+        'lxml', 'pyopenssl', 'suds-jurko>=0.4.1',
+        'PyXMLSec>=0.3.1'],
+      dependency_links=['https://github.com/htj/suds-htj/tarball/master#egg=suds-0.4.1'],
 )
