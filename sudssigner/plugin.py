@@ -60,7 +60,8 @@ class SignerPlugin(MessagePlugin):
                  keytype=None,
                  pwd=None, pwdCallback=None, pwdCallbackCtx=None,
                  transform_algorithm=None,
-                 digestmethod_algorithm=None):
+                 digestmethod_algorithm=None,
+                 transform_count=None):
         init_xmlsec()
         self.keyfile = keyfile
         self.pwd = pwd
@@ -71,6 +72,7 @@ class SignerPlugin(MessagePlugin):
         self.items_to_sign = items_to_sign or [BODY_XPATH, TIMESTAMP_XPATH]
         self.transform_algorithm = transform_algorithm or xmlsec.HrefExcC14N
         self.digestmethod_algorithm = digestmethod_algorithm or xmlsec.HrefSha1
+        self.transform_count = transform_count or 1
 
     def load_keyfile(self):
         cert = file(self.keyfile, 'rb').read()
@@ -103,7 +105,7 @@ class SignerPlugin(MessagePlugin):
         sending plugin method: add security headers and sign msg
         """
         env = etree.fromstring(context.envelope)
-        queue = SignQueue(self.transform_algorithm, self.digestmethod_algorithm)
+        queue = SignQueue(self.transform_algorithm, self.digestmethod_algorithm, self.transform_count)
 
         for item_to_sign in self.items_to_sign:
             if isinstance(item_to_sign, tuple):
@@ -173,10 +175,11 @@ class SignerPlugin(MessagePlugin):
 
 class SignQueue(object):
 
-    def __init__(self, transform_algorithm, digestmethod_algorithm):
+    def __init__(self, transform_algorithm, digestmethod_algorithm, transform_count):
         self.queue = []
         self.transform_algorithm = transform_algorithm
         self.digestmethod_algorithm = digestmethod_algorithm
+        self.transform_count = transform_count
 
     def push_and_mark(self, element, unique_id=None):
         unique_id = unique_id or get_unique_id()
@@ -185,11 +188,17 @@ class SignQueue(object):
 
     def insert_references(self, signed_info):
         for element_id in self.queue:
+            # Create the reference element
             reference = etree.SubElement(signed_info, DS_REFERENCE,
                     {xmlsec.AttrURI: '#{0}'.format(element_id)})
+            # Add as many transforms as specified
             transforms = etree.SubElement(reference, DS_TRANSFORMS)
-            set_algorithm(transforms, xmlsec.NodeTransform, self.transform_algorithm)
+            for __ in range(0, self.transform_count):
+                # Add the transforms element
+                set_algorithm(transforms, xmlsec.NodeTransform, self.transform_algorithm)
+            # Set the digest algorithm
             set_algorithm(reference, xmlsec.NodeDigestMethod, self.digestmethod_algorithm)
+            # Add the digest to the reference
             etree.SubElement(reference, DS_DIGEST_VALUE)
 
 
